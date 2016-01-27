@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>瀑布流</title>
+    <style>
+        *{margin:0;padding:0;}
+        .box{
+            padding:5px;
+            border:1px solid #ccc;
+            border-radius: 5px;
+            box-shadow:2px 2px 2px 2px rgba(0,0,0,0.1);
+            float:left;
+        }
+    </style>
+    <script>
+        window.onload  = function(){
+            waterfalls("contaiter","box");
+
+            window.onscroll = function(){
+
+                if(loading())
+                {
+                    var json = [
+                        {"src":"P_000.jpg"},
+                        {"src":"P_001.jpg"},
+                        {"src":"P_002.jpg"},
+                        {"src":"P_003.jpg"},
+                        {"src":"P_004.jpg"},
+                        {"src":"P_005.jpg"},
+                        {"src":"P_006.jpg"},
+                        {"src":"P_007.jpg"},
+                        {"src":"P_008.jpg"},
+                        {"src":"P_009.jpg"},
+                        {"src":"P_010.jpg"}
+                    ];
+
+                   for(var i=0;i<json.length;i++)
+                   {
+                       var boxElement = document.createElement("div");
+                       boxElement.className = 'box';
+                       $("contaiter").appendChild(boxElement);
+                       var boxImg = document.createElement("img");
+                       boxImg.src = "images/"+json[i].src;
+                       boxElement.appendChild(boxImg);
+                       console.log(json[i].src);
+                   }
+
+                    waterfalls("contaiter","box");
+                }
+            }
+        }
+        function $(id){ return document.getElementById(id);}
+        function waterfalls(parent,obj){
+
+            var parents = document.getElementById(parent);
+            var objs = parents.children;
+            var boxWidth = objs[0].offsetWidth; // 得到盒子的宽度
+            //计算列数
+            var column = Math.floor(document.documentElement.clientWidth / boxWidth);
+            //计算每一个box 的高度
+            var arrHeight = []; // 得到第一行的 高度  数组
+            for(var i = 0; i<objs.length;i++)
+            {
+               if(i < column) // 这个就是规定了第一行，第一行决定了 一行上可以放多少个
+               {
+                   arrHeight[i] = objs[i].offsetHeight; // 得到第一行的盒子高度
+                  // console.log(arrHeight);
+
+               }
+                else
+               {
+                   var minHeight = Math.min.apply("",arrHeight);  // 找到第一行最小的那个高度
+                   //console.log(minHeight);
+                   var minIndex = minHeightImg(minHeight); // 根据最小的高度，得到最小的那个盒子
+                   //console.log(minIndex);
+                   objs[i].style.position = "absolute";
+                   objs[i].style.top = minHeight + 'px';
+                   objs[i].style.left = objs[minIndex].offsetLeft + 'px';// 下一张 应该放到 最小的元素的下面
+                   arrHeight[minIndex] = arrHeight[minIndex] + objs[i].offsetHeight;
+                   // 此时最小的高度已经加了 下一个盒子进来，因此这里 不是最小的了，需要从新找最低的
+               }
+            }
+            //根据最小的高度，获得相应的图片的位置
+            function minHeightImg(val){
+                for(var k in arrHeight)
+                {
+                    if(arrHeight[k] == minHeight)
+                    {
+                        return k;
+                    }
+                }
+            }
+        }
+        //动态添加延时加载
+
+        function loading(){   //  就是如果屏幕滑动到最后一个 图片，就需要从新加载了
+
+            var boxs = $("contaiter").children;
+            var lastBoxHeight = boxs[boxs.length - 1].offsetTop;  // 得到最后一个图片 的高度
+            var clientHeight = document.body.clientHeight || document.documentElement.clientHeight; // 屏幕高度
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            if(lastBoxHeight <= clientHeight + scrollTop) // 最后一个图片 小于  屏幕的高度 + 滚动的距离
+            {
+                return true;
+            }
+        }
+
+    </script>
+</head>
+<body>
+<div id="contaiter">
+    <div class="box">
+        <img src="images/P_000.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_001.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_002.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_003.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_004.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_005.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_006.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_007.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_008.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_009.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_010.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_011.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_012.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_013.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_014.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_015.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_016.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_017.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_018.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_019.jpg" alt=""/>
+    </div>    <div class="box">
+        <img src="images/P_000.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_001.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_002.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_003.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_004.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_005.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_006.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_007.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_008.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_009.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_010.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_011.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_012.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_013.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_014.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_015.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_016.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_017.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_018.jpg" alt=""/>
+    </div>
+    <div class="box">
+        <img src="images/P_019.jpg" alt=""/>
+    </div>
+</div>
+</body>
+</html>
